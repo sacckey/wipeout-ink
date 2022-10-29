@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Tweet from 'components/Tweet'
 import { fetchTweets } from 'lib/fetchTweets'
 
-export default function Home({ tweets }) {
+export default function Home({ tweets }: any) {
   return (
     <div>
       <Head>
@@ -12,7 +12,7 @@ export default function Home({ tweets }) {
       <main className='container max-w-full py-8'>
         <h1 className='font-quicksand text-6xl text-center'>WIPEOUT!</h1>
         {
-          tweets.map((tweet) =>
+          tweets.map((tweet:any) =>
             tweet.source === 'Nintendo Switch Share' &&
             <Tweet key={tweet.id} tweet={tweet} />
           )

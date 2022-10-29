@@ -1,5 +1,9 @@
 import { Client } from "twitter-api-sdk"
 
+interface Obj {
+  [prop: string]: any
+}
+
 export const fetchTweets = async () => {
   const client = new Client(process.env.TWITTER_BEARER_TOKEN as string);
 
@@ -23,17 +27,20 @@ export const fetchTweets = async () => {
     ]
   })
 
-  const media_key2video = {}
-  res.includes.media.map((media) => {
-    media_key2video[media.media_key] = media.variants.filter(variant => 'bit_rate' in variant).sort((a, b) => b.value - a.value)[0].url
+
+  const media_key2video: Obj = {}
+  res?.includes?.media && res?.includes?.media.map((media: any) => {
+    if(media.media_key){
+      media_key2video[media.media_key] = media.variants.filter((variant:any) => 'bit_rate' in variant).sort((a: any, b: any) => b.value - a.value)[0].url
+    }
   })
 
-  const tweets = res.data.map((t) => {
-    const author = res.includes.users.find((a) => a.id === t.author_id)
+  const tweets = res?.data && res.data.map((t) => {
+    const author = res?.includes?.users && res?.includes?.users.find((a) => a.id === t.author_id)
     return {
       id: t.id,
       text: t.text,
-      createdAt: new Date(t.created_at).toLocaleDateString('en', {
+      createdAt: t.created_at && new Date(t.created_at).toLocaleDateString('en', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -45,12 +52,12 @@ export const fetchTweets = async () => {
         retweets: formatMetric(t.public_metrics?.retweet_count ?? 0),
       },
       author: {
-        name: author.name,
-        username: author.username,
-        profileImageUrl: author.profile_image_url,
+        name: author?.name,
+        username: author?.username,
+        profileImageUrl: author?.profile_image_url,
       },
-      url: `https://twitter.com/${author.username}/status/${t.id}`,
-      video: media_key2video[t.attachments?.media_keys[0]],
+      url: `https://twitter.com/${author?.username}/status/${t.id}`,
+      video: t.attachments?.media_keys && media_key2video[t.attachments?.media_keys[0]],
       source: t.source
     }
   })
@@ -58,7 +65,7 @@ export const fetchTweets = async () => {
   return tweets
 }
 
-export const formatMetric = (number) => {
+export const formatMetric = (number: number) => {
   if (number < 1000) {
     return number
   }
