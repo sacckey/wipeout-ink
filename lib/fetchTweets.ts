@@ -1,0 +1,69 @@
+import { Client } from "twitter-api-sdk"
+
+export const fetchTweets = async () => {
+  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string);
+
+  const res = await client.tweets.tweetsRecentSearch({
+    "query": "#Splatoon3 #wipeout has:videos -is:retweet",
+    "max_results": 100,
+    "tweet.fields": [
+      "source",
+      "public_metrics",
+      "created_at"
+    ],
+    "expansions": [
+      "author_id",
+      "attachments.media_keys"
+    ],
+    "media.fields": [
+      "variants",
+    ],
+    "user.fields": [
+      "profile_image_url"
+    ]
+  })
+
+  const media_key2video = {}
+  res.includes.media.map((media) => {
+    media_key2video[media.media_key] = media.variants.filter(variant => 'bit_rate' in variant).sort((a, b) => b.value - a.value)[0].url
+  })
+
+  const tweets = res.data.map((t) => {
+    const author = res.includes.users.find((a) => a.id === t.author_id)
+    return {
+      id: t.id,
+      text: t.text,
+      createdAt: new Date(t.created_at).toLocaleDateString('en', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC',
+      }),
+      metrics: {
+        replies: formatMetric(t.public_metrics?.reply_count ?? 0),
+        likes: formatMetric(t.public_metrics?.like_count ?? 0),
+        retweets: formatMetric(t.public_metrics?.retweet_count ?? 0),
+      },
+      author: {
+        name: author.name,
+        username: author.username,
+        profileImageUrl: author.profile_image_url,
+      },
+      url: `https://twitter.com/${author.username}/status/${t.id}`,
+      video: media_key2video[t.attachments?.media_keys[0]],
+      source: t.source
+    }
+  })
+
+  return tweets
+}
+
+export const formatMetric = (number) => {
+  if (number < 1000) {
+    return number
+  }
+  if (number < 1000000) {
+    return `${(number / 1000).toFixed(1)}K`
+  }
+  return `${(number / 1000000).toFixed(1)}M`
+}
