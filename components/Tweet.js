@@ -1,6 +1,6 @@
 const Tweet = ({ tweet }) => {
   return (
-    <div className='bg-slate-100 border border-slate-300 rounded-2xl duration-300 my-8 p-5 max-w-xl mx-auto dark:text-black'>
+    <div className='bg-slate-100 border border-slate-300 rounded-2xl duration-300 my-8 p-5 max-w-xl mx-auto text-black'>
       <div className='flex justify-between'>
         <a className='flex items-center gap-3 group' href={tweet.url}>
           <img className='rounded-full h-12 w-12' src={tweet.author.profileImageUrl} />
