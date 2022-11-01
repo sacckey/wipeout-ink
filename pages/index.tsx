@@ -10,7 +10,6 @@ export default function Home({ tweets }: any) {
       </Head>
 
       <main className='container max-w-full py-8'>
-        <h1 className='font-quicksand text-6xl text-center'>WIPEOUT!</h1>
         {
           tweets.map((tweet:any) =>
             tweet.source === 'Nintendo Switch Share' &&
