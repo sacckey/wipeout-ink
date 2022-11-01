@@ -38,11 +38,9 @@ const Header = () => {
     //クリックした時に実行する関数
     const hundleClickOutside = (e: MouseEvent) => {
       if (!el.contains(e.target as Node)) {
-        console.log('out')
         setOpen(false)
       } else {
         toggleMenu()
-        console.log('in')
       }
     }
 
