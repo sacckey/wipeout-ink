@@ -1,3 +1,15 @@
+// import { app, db } from "../lib/firebase"
+// import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+
+// const setTweets = async (tweet) => {
+//   await setDoc(doc(db, "tweets", tweet.id), {
+//     twitterUid: tweet.author.uid,
+//     likeCount: 0,
+//     createdAt: serverTimestamp(),
+//     updatedAt: serverTimestamp()
+//   })
+// }
+
 const Tweet = ({ tweet }) => {
   return (
     <div className='bg-slate-100 border border-slate-300 rounded-2xl duration-300 my-8 p-5 max-w-xl mx-auto text-black'>

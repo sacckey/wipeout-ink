@@ -52,6 +52,7 @@ export const fetchTweets = async () => {
         retweets: formatMetric(t.public_metrics?.retweet_count ?? 0),
       },
       author: {
+        uid: author?.id,
         name: author?.name,
         username: author?.username,
         profileImageUrl: author?.profile_image_url,
