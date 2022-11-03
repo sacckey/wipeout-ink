@@ -1,15 +1,10 @@
 import { Client } from "twitter-api-sdk"
 
-interface Obj {
-  [prop: string]: any
-}
+export const fetchTweets = async (tweetIds: string[]) => {
+  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
 
-export const fetchTweets = async () => {
-  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string);
-
-  const res = await client.tweets.tweetsRecentSearch({
-    "query": "#Splatoon3 #wipeout has:videos -is:retweet",
-    "max_results": 100,
+  const res = await client.tweets.findTweetsById({
+    "ids": tweetIds,
     "tweet.fields": [
       "source",
       "public_metrics",
@@ -27,8 +22,7 @@ export const fetchTweets = async () => {
     ]
   })
 
-
-  const media_key2video: Obj = {}
+  const media_key2video: {[prop: string]: any} = {}
   res?.includes?.media && res?.includes?.media.map((media: any) => {
     if(media.media_key){
       media_key2video[media.media_key] = media.variants.filter((variant:any) => 'bit_rate' in variant).sort((a: any, b: any) => b.value - a.value)[0].url
