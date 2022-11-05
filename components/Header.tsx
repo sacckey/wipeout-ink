@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { getAuth, signInWithPopup, TwitterAuthProvider, signOut } from "firebase/auth"
 import { useAuthContext } from "../contexts/AuthContext"
 import { app, db } from "../lib/firebase"
-import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
 
 const Header = () => {
   const { user, signInChecking } = useAuthContext()
@@ -19,13 +19,23 @@ const Header = () => {
     const credential = await signInWithPopup(auth, provider)
     const user = credential.user
 
-    await setDoc(doc(db, "users", user.uid), {
-      name: user.displayName,
-      photoURL: user.photoURL,
-      twitterUid: user.providerData[0].uid,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    })
+    const snapShot = await getDoc(doc(db, "users", user.uid))
+    if (snapShot.exists()) {
+      await updateDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        photoURL: user.photoURL,
+        updatedAt: serverTimestamp()
+      })
+    }
+    else {
+      await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        photoURL: user.photoURL,
+        twitterUid: user.providerData[0].uid,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      })
+    }
 
     setOpen(false)
     router.push("/")
