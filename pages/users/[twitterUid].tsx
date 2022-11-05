@@ -1,16 +1,12 @@
-import Head from 'next/head'
 import Tweet from 'components/Tweet'
 import { fetchTweets } from 'lib/fetchTweets'
-import { db } from "../lib/firebase"
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore"
+import { db } from "../../lib/firebase"
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore"
 
-export default function Home({ tweets }: any) {
+// TODO: コンポーネントにする
+export default function UserPage({ tweets }: any) {
   return (
     <div>
-      <Head>
-        <title>WIPEOUT!</title>
-      </Head>
-
       <main className='container max-w-full py-8'>
         {
           tweets.map((tweet:any) =>
@@ -23,8 +19,16 @@ export default function Home({ tweets }: any) {
   )
 }
 
-export async function getStaticProps() {
-  const q = query(collection(db, "tweets"), orderBy('publishedAt', 'desc'), limit(30))
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+
+export const getStaticProps = async (context: { params: { twitterUid: string } }) => {
+  const { twitterUid } = context.params
+  const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), orderBy('publishedAt', 'desc'), limit(30))
   const tweetSnapshots = await getDocs(q)
   const tweetIds = tweetSnapshots.docs.map((doc) => doc.id)
 
