@@ -1,8 +1,10 @@
+import Link from "next/link"
+
 const Tweet = ({ tweet }) => {
   return (
     <div className='bg-slate-100 border border-slate-300 rounded-2xl duration-300 my-8 p-5 max-w-xl mx-auto text-black'>
       <div className='flex justify-between'>
-        <a className='flex items-center gap-3 group' href={tweet.url}>
+        <Link className='flex items-center gap-3 group' href={tweet.url}>
           <img className='rounded-full h-12 w-12' src={tweet.author.profileImageUrl} />
           <div className='flex flex-col leading-snug'>
             <span className='text-sm font-semibold flex gap-2'>
@@ -11,7 +13,7 @@ const Tweet = ({ tweet }) => {
             </span>
             <span className='text-sm opacity-80 group-hover:opacity-100 duration-300'>{tweet.createdAt.toLocaleString()}</span>
           </div>
-        </a>
+        </Link>
       </div>
       <div className='text-lg my-3 leading-normal'>{tweet.text}</div>
       <video controls src={tweet.video}></video>

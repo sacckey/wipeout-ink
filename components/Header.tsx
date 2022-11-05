@@ -4,6 +4,7 @@ import { getAuth, signInWithPopup, TwitterAuthProvider, signOut } from "firebase
 import { useAuthContext } from "../contexts/AuthContext"
 import { app, db } from "../lib/firebase"
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
+import Link from "next/link"
 
 const Header = () => {
   const { user, signInChecking } = useAuthContext()
@@ -88,7 +89,14 @@ const Header = () => {
             <div className="absolute -right-5">
               <ul className="py-1 text-sm" aria-labelledby="avatarButton">
                 <li>
-                  <a href="#" onClick={logout} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">Logout</a>
+                  <Link href={`/users/${user.uid}`} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
+                    Mypage
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" onClick={logout} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
+                    Logout
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -105,12 +113,13 @@ const Header = () => {
   return (
     <header className="text-gray-400 bg-black body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+        <Link href="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           <h1 className='font-quicksand text-4xl text-center'>wipeout.ink</h1>
-        </a>
+        </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 hover:text-white">First Link</a>
-          <a className="mr-5 hover:text-white">Second Link</a>
+          <Link href="https://possible-gatsby-d42.notion.site/wipeout-ink-c8eea9c4f466403ebb3a397fb9215da9" className="mr-5 hover:text-white">
+            About
+          </Link>
         </nav>
         <div ref={insideRef}>
           {loginButton()}

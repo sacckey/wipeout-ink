@@ -1,6 +1,10 @@
 import { Client } from "twitter-api-sdk"
 
 export const fetchTweets = async (tweetIds: string[]) => {
+  if (tweetIds.length === 0) {
+    return []
+  }
+
   const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
 
   const res = await client.tweets.findTweetsById({
