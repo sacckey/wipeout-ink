@@ -8,7 +8,7 @@ export default function Home({ tweets }: any) {
   return (
     <div>
       <Head>
-        <title>WIPEOUT!</title>
+        <title>wipeout.ink</title>
       </Head>
 
       <main className='container max-w-full py-8'>
