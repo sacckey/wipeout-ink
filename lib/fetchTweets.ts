@@ -25,7 +25,7 @@ export const fetchTweets = async (tweetIds: string[]) => {
   const media_key2video: {[prop: string]: any} = {}
   res?.includes?.media && res?.includes?.media.map((media: any) => {
     if(media.media_key){
-      media_key2video[media.media_key] = media.variants.filter((variant:any) => 'bit_rate' in variant).sort((a: any, b: any) => b.value - a.value)[0].url
+      media_key2video[media.media_key] = media.variants.filter((variant:any) => 'bit_rate' in variant).sort((a: any, b: any) => b.bit_rate - a.bit_rate)[0].url
     }
   })
 
