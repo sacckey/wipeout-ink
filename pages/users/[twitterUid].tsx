@@ -5,9 +5,7 @@ import Tweets from '../../components/Tweets'
 
 export default function UserPage({ tweets }: any) {
   return (
-    <main className='container max-w-full py-8'>
-      <Tweets tweets={tweets} />
-    </main>
+    <Tweets tweets={tweets} />
   )
 }
 

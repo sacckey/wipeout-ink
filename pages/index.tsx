@@ -11,9 +11,7 @@ export default function Home({ tweets }: any) {
         <title>wipeout.ink</title>
       </Head>
 
-      <main className='container max-w-full py-8'>
-        <Tweets tweets={tweets} />
-      </main>
+      <Tweets tweets={tweets} />
     </div>
   )
 }
