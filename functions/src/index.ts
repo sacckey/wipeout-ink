@@ -67,4 +67,38 @@ export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('
     console.log('error!!!!')
     console.error(e)
   }
+
+  functions.logger.info("end!", {structuredData: true})
+})
+
+export const onCreateLike = functions.region('asia-northeast1').firestore.document('users/{uid}/likes/{tweetId}').onCreate(async (_snapshot, context) => {
+  functions.logger.info("start!", {structuredData: true})
+
+  try {
+    await admin.firestore().collection('tweets').doc(context.params.tweetId).update({
+      likeCount: admin.firestore.FieldValue.increment(1),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    })
+  } catch (e:any) {
+    console.log('error!!!!')
+    console.error(e)
+  }
+
+  functions.logger.info("end!", {structuredData: true})
+})
+
+export const onDeleteLike = functions.region('asia-northeast1').firestore.document('users/{uid}/likes/{tweetId}').onDelete(async (_snapshot, context) => {
+  functions.logger.info("start!", {structuredData: true})
+
+  try {
+    await admin.firestore().collection('tweets').doc(context.params.tweetId).update({
+      likeCount: admin.firestore.FieldValue.increment(-1),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    })
+  } catch (e:any) {
+    console.log('error!!!!')
+    console.error(e)
+  }
+
+  functions.logger.info("end!", {structuredData: true})
 })
