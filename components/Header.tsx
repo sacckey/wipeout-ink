@@ -89,7 +89,7 @@ const Header = () => {
             <div className="absolute -right-5">
               <ul className="py-1 text-sm" aria-labelledby="avatarButton">
                 <li>
-                  <Link href={`/users/${user.uid}`} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
+                  <Link href={`/users/${user.providerData[0].uid}`} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
                     Mypage
                   </Link>
                 </li>

@@ -1,12 +1,19 @@
+import { DocumentData, QuerySnapshot } from "firebase/firestore"
 import { Client } from "twitter-api-sdk"
 
-export const fetchTweets = async (tweetIds: string[]) => {
-  if (tweetIds.length === 0) {
+export const fetchTweets = async (tweetSnapshots: QuerySnapshot<DocumentData>) => {
+  if (tweetSnapshots.empty) {
     return []
   }
 
-  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
+  const tweetId2likeCount: {[prop: string]: any} = {}
+  const tweetIds: string[]= []
+  tweetSnapshots.docs.map((doc) => {
+    tweetIds.push(doc.id)
+    tweetId2likeCount[doc.id] = doc.data().likeCount
+  })
 
+  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
   const res = await client.tweets.findTweetsById({
     "ids": tweetIds,
     "tweet.fields": [
@@ -57,7 +64,8 @@ export const fetchTweets = async (tweetIds: string[]) => {
       },
       url: `https://twitter.com/${author?.username}/status/${t.id}`,
       video: t.attachments?.media_keys && media_key2video[t.attachments?.media_keys[0]],
-      source: t.source
+      source: t.source,
+      likeCount: tweetId2likeCount[t.id]
     }
   })
 
