@@ -94,6 +94,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link href='/likes' className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
+                    Likes
+                  </Link>
+                </li>
+                <li>
                   <Link href="#" onClick={logout} className="block py-2 px-4 hover:bg-gray-600 hover:text-white">
                     Logout
                   </Link>

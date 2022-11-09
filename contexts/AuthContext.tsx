@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 import type { User } from "firebase/auth"
 import { useRouter } from "next/router"
 import { app, db } from "../lib/firebase"
-import { query, collection, getDocs } from "firebase/firestore"
+import { query, collection, getDocs, orderBy } from "firebase/firestore"
 
 export type UserType = User | null
 
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
   const [user, setUser] = useState<UserType>(null)
   const [signInChecking, setSignInChecking] = useState(true)
   const [likeTweetIds, setLikeTweetIds] = useState<string[]>([])
-  const isAvailableForViewing = router.pathname !== "/fav"
+  const isAvailableForViewing = router.pathname !== '/likes'
   const value = {
     user,
     signInChecking,
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
     const authStateChanged = onAuthStateChanged(auth, async (user) => {
       setUser(user)
       if (!!user) {
-        const q = query(collection(db, 'users', user.uid, 'likes'))
+        const q = query(collection(db, 'users', user.uid, 'likes'), orderBy('createdAt', 'desc'))
         const likeSnapshots = await getDocs(q)
         const ids = likeSnapshots.docs.map((doc) => doc.id)
 

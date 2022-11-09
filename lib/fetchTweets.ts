@@ -1,14 +1,14 @@
 import { DocumentData, QuerySnapshot } from "firebase/firestore"
 import { Client } from "twitter-api-sdk"
 
-export const fetchTweets = async (tweetSnapshots: QuerySnapshot<DocumentData>) => {
+export const fetchTweets = async (tweetSnapshots: any) => {
   if (tweetSnapshots.empty) {
     return []
   }
 
   const tweetId2likeCount: {[prop: string]: any} = {}
   const tweetIds: string[]= []
-  tweetSnapshots.docs.map((doc) => {
+  tweetSnapshots.docs.map((doc: any) => {
     tweetIds.push(doc.id)
     tweetId2likeCount[doc.id] = doc.data().likeCount
   })
