@@ -110,18 +110,18 @@ const Header = () => {
         )
       }
       else {
-        return <button onClick={login} className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Login</button>
+        return <button onClick={login} className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-0">Login</button>
       }
     }
   }
 
   return (
     <header className="text-gray-400 bg-black body-font">
-      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <Link href="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+      <div className="container mx-auto flex flex-wrap p-5 flex-row items-center">
+        <Link href="/" className="flex title-font font-medium items-center text-white mb-0">
           <h1 className='font-quicksand text-4xl text-center'>wipeout.ink</h1>
         </Link>
-        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
           <Link href="https://possible-gatsby-d42.notion.site/wipeout-ink-c8eea9c4f466403ebb3a397fb9215da9" className="mr-5 hover:text-white">
             About
           </Link>
