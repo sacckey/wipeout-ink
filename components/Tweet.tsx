@@ -25,7 +25,7 @@ const Tweet = ({ tweet }: any) => {
       updatedAt: serverTimestamp()
     })
 
-    setLikeTweetIds && setLikeTweetIds((ids) => [...ids, tweet.id])
+    setLikeTweetIds && setLikeTweetIds((ids) => [tweet.id, ...ids])
     tweet.likeCount += 1
   }
 
