@@ -1,71 +1,30 @@
-import { DocumentData, QuerySnapshot } from "firebase/firestore"
-import { Client } from "twitter-api-sdk"
-
-export const fetchTweets = async (tweetSnapshots: any) => {
+export const fetchTweets = (tweetSnapshots: any) => {
   if (tweetSnapshots.empty) {
     return []
   }
 
-  const tweetId2likeCount: {[prop: string]: any} = {}
-  const tweetIds: string[]= []
-  tweetSnapshots.docs.map((doc: any) => {
-    tweetIds.push(doc.id)
-    tweetId2likeCount[doc.id] = doc.data().likeCount
-  })
+  const tweets = tweetSnapshots.docs.map((doc: any) => {
+    const tweet = doc.data()
 
-  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
-  const res = await client.tweets.findTweetsById({
-    "ids": tweetIds,
-    "tweet.fields": [
-      "source",
-      "public_metrics",
-      "created_at"
-    ],
-    "expansions": [
-      "author_id",
-      "attachments.media_keys"
-    ],
-    "media.fields": [
-      "variants",
-    ],
-    "user.fields": [
-      "profile_image_url"
-    ]
-  })
-
-  const media_key2video: {[prop: string]: any} = {}
-  res?.includes?.media && res?.includes?.media.map((media: any) => {
-    if(media.media_key){
-      media_key2video[media.media_key] = media.variants.filter((variant:any) => 'bit_rate' in variant).sort((a: any, b: any) => b.bit_rate - a.bit_rate)[0].url
-    }
-  })
-
-  const tweets = res?.data && res.data.map((t) => {
-    const author = res?.includes?.users && res?.includes?.users.find((a) => a.id === t.author_id)
     return {
-      id: t.id,
-      text: t.text,
-      createdAt: t.created_at && new Date(t.created_at).toLocaleDateString('en', {
+      id: doc.id,
+      text: tweet.text,
+      replyCount: formatMetric(tweet.replyCount),
+      twitterLikeCount: formatMetric(tweet.twitterLikeCount),
+      retweetCount: formatMetric(tweet.retweetCount),
+      name: tweet.name,
+      username: tweet.username,
+      profileImageUrl: tweet.profileImageUrl,
+      url: tweet.url,
+      video: tweet.video,
+      twitterUid: tweet.twitterUid,
+      likeCount: tweet.likeCount,
+      publishedAt: tweet.publishedAt.toDate().toLocaleDateString('en', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         timeZone: 'UTC',
-      }),
-      metrics: {
-        replies: formatMetric(t.public_metrics?.reply_count ?? 0),
-        likes: formatMetric(t.public_metrics?.like_count ?? 0),
-        retweets: formatMetric(t.public_metrics?.retweet_count ?? 0),
-      },
-      author: {
-        uid: author?.id,
-        name: author?.name,
-        username: author?.username,
-        profileImageUrl: author?.profile_image_url,
-      },
-      url: `https://twitter.com/${author?.username}/status/${t.id}`,
-      video: t.attachments?.media_keys && media_key2video[t.attachments?.media_keys[0]],
-      source: t.source,
-      likeCount: tweetId2likeCount[t.id]
+      })
     }
   })
 
