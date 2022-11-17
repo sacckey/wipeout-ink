@@ -20,7 +20,7 @@ export const getStaticProps = async (context: { params: { twitterUid: string } }
   const { twitterUid } = context.params
   const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), orderBy('publishedAt', 'desc'), limit(30))
   const tweetSnapshots = await getDocs(q)
-  const tweets = await fetchTweets(tweetSnapshots)
+  const tweets = fetchTweets(tweetSnapshots)
 
   return {
     props: {

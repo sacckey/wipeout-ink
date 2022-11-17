@@ -73,18 +73,18 @@ const Tweet = ({ tweet }: any) => {
       <div className='flex'>
         <div className='flex justify-between'>
           <Link className='flex items-center gap-3 group' href={tweet.url}>
-            <img className='rounded-full h-12 w-12' src={tweet.author.profileImageUrl} />
+            <img className='rounded-full h-12 w-12' src={tweet.profileImageUrl} />
             <div className='flex flex-col leading-snug'>
               <span className='text-sm font-semibold flex gap-2'>
-                {tweet.author.name}
-                <span className='text-sm font-normal opacity-70 group-hover:opacity-100 duration-300'>@{tweet.author.username}</span>
+                {tweet.name}
+                <span className='text-sm font-normal opacity-70 group-hover:opacity-100 duration-300'>@{tweet.username}</span>
               </span>
-              <span className='text-sm opacity-80 group-hover:opacity-100 duration-300'>{tweet.createdAt.toLocaleString()}</span>
+              <span className='text-sm opacity-80 group-hover:opacity-100 duration-300'>{tweet.publishedAt.toLocaleString()}</span>
             </div>
           </Link>
         </div>
         <div className="flex ml-auto">
-          <Link href={`/users/${tweet.author.uid}`} className="h-6 w-6 mr-6">
+          <Link href={`/users/${tweet.twitterUid}`} className="h-6 w-6 mr-6">
             <svg className="stroke-gray-500 hover:stroke-gray-700" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           </Link>
           {likeButton()}

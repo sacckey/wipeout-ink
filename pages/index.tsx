@@ -19,7 +19,7 @@ export default function Home({ tweets }: any) {
 export async function getStaticProps() {
   const q = query(collection(db, "tweets"), orderBy('publishedAt', 'desc'), limit(30))
   const tweetSnapshots = await getDocs(q)
-  const tweets = await fetchTweets(tweetSnapshots)
+  const tweets = fetchTweets(tweetSnapshots)
 
   return {
     props: {
