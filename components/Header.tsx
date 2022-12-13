@@ -122,6 +122,9 @@ const Header = () => {
           <h1 className='font-quicksand text-4xl text-center'>wipeout.ink</h1>
         </Link>
         <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
+          <Link href="/ranking" className="mr-5 hover:text-white">
+            Ranking
+          </Link>
           <Link href="https://possible-gatsby-d42.notion.site/wipeout-ink-c8eea9c4f466403ebb3a397fb9215da9" className="mr-5 hover:text-white">
             About
           </Link>
