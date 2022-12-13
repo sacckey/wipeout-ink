@@ -66,6 +66,7 @@ const saveTweets = async (res: any) => {
       video: tweet.attachments?.media_keys && media_key2video[tweet.attachments?.media_keys[0]],
       twitterUid: tweet.author_id,
       likeCount: 0,
+      active: true,
       publishedAt: admin.firestore.Timestamp.fromDate(new Date(tweet.created_at)),
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -89,6 +90,108 @@ export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('
   try {
     const res = await searchTweets(date)
     res && await saveTweets(res)
+  } catch (e:any) {
+    console.log('error!!!!')
+    console.error(e)
+  }
+
+  functions.logger.info("end!", {structuredData: true})
+})
+
+const deleteTweet = async (targetTweet: any) => {
+  const likes = await admin.firestore().collectionGroup('likes').where('tweet.ref', '==', targetTweet.ref).get()
+  likes.docs.map(async (doc: any) => {
+    console.log('delete!!!!!!!!')
+    functions.logger.info(doc, {structuredData: true})
+    await doc.ref.delete()
+  })
+}
+
+
+const updateAndDelete = async (targetTweets: any) => {
+  if (targetTweets.length === 0) {
+    return
+  }
+
+  const targetTweetIds = targetTweets.map((targetTweet: any) => targetTweet.id)
+  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
+  const res = await client.tweets.findTweetsById({
+    "ids": targetTweetIds,
+    "tweet.fields": [
+      "source",
+      "public_metrics",
+      "created_at"
+    ],
+    "expansions": [
+      "author_id",
+      "attachments.media_keys"
+    ],
+    "media.fields": [
+      "variants",
+    ],
+    "user.fields": [
+      "profile_image_url"
+    ]
+  })
+
+  const authors: {[prop: string]: any} = {}
+  res?.includes?.users?.map((author: any) => {
+    authors[author.id] = author
+  })
+
+  const resTweets: {[prop: string]: any} = {}
+  res?.data?.map((tweet: any) => {
+    resTweets[tweet.id] = tweet
+  })
+
+  targetTweets.map(async (targetTweet: any) => {
+    const tweet = targetTweet.data()
+    const tweetId = targetTweet.id
+    const author = authors[tweet.twitterUid]
+    const resTweet = resTweets[tweetId]
+
+    if (!resTweet){
+      functions.logger.info("inactive!!!!!!!!!", {structuredData: true})
+      console.log(tweetId)
+      await deleteTweet(targetTweet)
+      tweet.active = false
+      tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
+    }
+    else {
+      tweet.replyCount = resTweet.public_metrics?.reply_count ?? tweet.replyCount
+      tweet.twitterLikeCount = resTweet.public_metrics?.like_count ?? tweet.twitterLikeCount
+      tweet.retweetCount = resTweet.public_metrics?.retweet_count ?? tweet.retweetCount
+      tweet.name = author?.name
+      tweet.username = author?.username
+      tweet.profileImageUrl = author?.profile_image_url
+      tweet.url = `https://twitter.com/${author?.username}/status/${resTweet.id}`
+      tweet.active = true
+      tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
+    }
+
+    functions.logger.info(tweet, {structuredData: true})
+
+    await admin.firestore().collection('tweets').doc(tweetId).set(tweet)
+  })
+}
+
+export const updateTweets = functions.region('asia-northeast1').pubsub.schedule('0 4 * * *').timeZone('Asia/Tokyo').onRun(async (context) => {
+  functions.logger.info("start!", {structuredData: true})
+
+  try {
+    const tweetSnapshots = await admin.firestore().collection('tweets').where('active', '==', true).orderBy('publishedAt', 'desc').limit(1000).get()
+
+    let targetTweets:any[] = []
+    tweetSnapshots.docs.map(async (doc: any) => {
+      targetTweets.push(doc)
+
+      if(targetTweets.length === 100) {
+        await updateAndDelete(targetTweets)
+        targetTweets = []
+      }
+    })
+    await updateAndDelete(targetTweets)
+
   } catch (e:any) {
     console.log('error!!!!')
     console.error(e)
