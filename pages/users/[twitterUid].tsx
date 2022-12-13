@@ -11,7 +11,7 @@ export default function UserPage({ tweets, twitterUid }: any) {
 
   const loadMore = async (page: any) => {
     const lastTweetDate = Timestamp.fromDate(new Date(list.at(-1).publishedAt))
-    const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
+    const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), where('active', '==', true), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
     const tweetSnapshots = await getDocs(q)
     const tweets = fetchTweets(tweetSnapshots)
 
@@ -41,7 +41,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context: { params: { twitterUid: string } }) => {
   const { twitterUid } = context.params
-  const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), orderBy('publishedAt', 'desc'), limit(30))
+  const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), where('active', '==', true), orderBy('publishedAt', 'desc'), limit(30))
   const tweetSnapshots = await getDocs(q)
   const tweets = fetchTweets(tweetSnapshots)
 

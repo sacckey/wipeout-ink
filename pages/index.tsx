@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { fetchTweets } from 'lib/fetchTweets'
 import { db } from "../lib/firebase"
-import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp } from "firebase/firestore"
+import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp, where } from "firebase/firestore"
 import Tweets from '../components/Tweets'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -12,7 +12,7 @@ export default function Home({ tweets }: any) {
 
   const loadMore = async (page: any) => {
     const lastTweetDate = Timestamp.fromDate(new Date(list.at(-1).publishedAt))
-    const q = query(collection(db, "tweets"), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
+    const q = query(collection(db, "tweets"), where('active', '==', true), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
     const tweetSnapshots = await getDocs(q)
     const tweets = fetchTweets(tweetSnapshots)
 
@@ -39,7 +39,7 @@ export default function Home({ tweets }: any) {
 }
 
 export async function getStaticProps() {
-  const q = query(collection(db, "tweets"), orderBy('publishedAt', 'desc'), limit(30))
+  const q = query(collection(db, "tweets"), where('active', '==', true), orderBy('publishedAt', 'desc'), limit(30))
   const tweetSnapshots = await getDocs(q)
   const tweets = fetchTweets(tweetSnapshots)
 
