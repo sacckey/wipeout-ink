@@ -30,6 +30,7 @@ export default function Home({ tweets }: any) {
     <div>
       <Head>
         <title>wipeout.ink</title>
+        <meta property="og:image" content="ogp.png" />
       </Head>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
         <Tweets tweets={list} />
