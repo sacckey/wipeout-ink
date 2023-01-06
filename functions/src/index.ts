@@ -10,7 +10,7 @@ const searchTweets = async (startTime: Date) => {
 
   const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
   const res = await client.tweets.tweetsRecentSearch({
-    "query": "#Splatoon3 #wipeout has:videos -is:retweet",
+    "query": "#Splatoon3 #wipeout #NintendoSwitch has:videos -is:retweet",
     "start_time": startTimeString,
     "max_results": 100,
     "tweet.fields": [
@@ -75,9 +75,9 @@ const saveTweets = async (res: any) => {
   }
 
   res?.data && res.data.map(async (tweet: any) => {
-    if (tweet.source === 'Nintendo Switch Share') {
+    // if (tweet.source === 'Nintendo Switch Share') {
       await saveTweet(tweet)
-    }
+    // }
   })
 }
 
@@ -165,7 +165,6 @@ const updateAndDelete = async (targetTweets: any) => {
       tweet.username = author?.username
       tweet.profileImageUrl = author?.profile_image_url
       tweet.url = `https://twitter.com/${author?.username}/status/${resTweet.id}`
-      tweet.active = true
       tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
     }
 
