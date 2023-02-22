@@ -1,7 +1,6 @@
 import { fetchTweets } from 'lib/fetchTweets'
-import { db } from "../lib/firebase"
-import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore"
 import Tweets from '../components/Tweets'
+import { admin } from 'lib/firebaseAdmin'
 
 export default function Ranking({ tweets }: any) {
   return (
@@ -10,8 +9,7 @@ export default function Ranking({ tweets }: any) {
 }
 
 export async function getStaticProps() {
-  const q = query(collection(db, "tweets"), where('active', '==', true), orderBy('likeCount', 'desc'), orderBy('publishedAt', 'desc'), limit(30))
-  const tweetSnapshots = await getDocs(q)
+  const tweetSnapshots = await admin.firestore().collection('tweets').where('active', '==', true).orderBy('likeCount', 'desc').orderBy('publishedAt', 'desc').limit(30).get()
   const tweets = fetchTweets(tweetSnapshots)
 
   return {
