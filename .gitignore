@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+firestore.rules
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+firebase_data/
