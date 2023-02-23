@@ -4,6 +4,7 @@ import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp, wher
 import Tweets from '../../components/Tweets'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
+import { admin } from 'lib/firebaseAdmin'
 
 export default function UserPage({ tweets, twitterUid }: any) {
   const [list, setList] = useState(tweets)
@@ -41,8 +42,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context: { params: { twitterUid: string } }) => {
   const { twitterUid } = context.params
-  const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), where('active', '==', true), orderBy('publishedAt', 'desc'), limit(30))
-  const tweetSnapshots = await getDocs(q)
+  const tweetSnapshots = await admin.firestore().collection('tweets').where('twitterUid', '==', twitterUid).where('active', '==', true).orderBy('publishedAt', 'desc').limit(30).get()
   const tweets = fetchTweets(tweetSnapshots)
 
   return {
