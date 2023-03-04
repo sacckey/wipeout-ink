@@ -1,4 +1,4 @@
-FROM node:19.6.0-alpine3.16
+FROM node:18.14.2-alpine3.17
 
 RUN apk update \
  && apk --no-cache add openjdk17-jre-headless \
