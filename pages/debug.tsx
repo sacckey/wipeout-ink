@@ -9,6 +9,7 @@ export default function Debug() {
   const fetch = async () => {
     const saveTestTweets = httpsCallable(functions, 'saveTestTweets')
     await saveTestTweets()
+
     router.push("/")
   }
 
