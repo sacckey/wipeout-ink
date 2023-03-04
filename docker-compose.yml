@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  firebase:
+    build: .
+    ports:
+      - 4000:4000
+      - 5001:5001
+      - 8080:8080
+      - 9099:9099
+    volumes:
+      - .:/app/firebase
+    working_dir: /app/firebase
+    command: "firebase --debug emulators:start --import=./firebase_data --export-on-exit --project demo-project-id"
+    tty: true

@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  function isAuthenticatedUser(request, uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+  function isValidUser(request) {
+    return request.resource.data.size() == 5
+      && request.resource.data.name == request.auth.token.name
+      && request.resource.data.photoURL == request.auth.token.picture
+      && request.resource.data.twitterUid == request.auth.token.firebase.identities["twitter.com"][0]
+      && request.resource.data.updatedAt == request.time;
+  }
+
+  function userRef(uid) {
+    return /databases/$(database)/documents/users/$(uid)
+  }
+
+  function tweetRef(tweetId) {
+    return /databases/$(database)/documents/tweets/$(tweetId)
+  }
+
+  function isValidLike(request, uid, tweetId) {
+    return request.resource.data.size() == 4
+      && request.resource.data.user.size() == 1
+      && request.resource.data.user.ref == userRef(uid)
+      && request.resource.data.tweet.size() == 1
+      && request.resource.data.tweet.ref == tweetRef(tweetId)
+      && get(request.resource.data.tweet.ref).data.active == true
+      && request.resource.data.createdAt == request.time
+      && request.resource.data.updatedAt == request.time;
+  }
+
+    match /users/{uid} {
+      allow get: if isAuthenticatedUser(request, uid);
+      allow create: if isAuthenticatedUser(request, uid)
+        && isValidUser(request)
+        && request.resource.data.createdAt == request.time;
+      allow update: if isAuthenticatedUser(request, uid)
+        && isValidUser(request)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'photoURL', 'updatedAt']);
+
+      match /likes/{tweetId} {
+        allow read: if isAuthenticatedUser(request, uid);
+	      allow create: if isAuthenticatedUser(request, uid)
+          && isValidLike(request, uid, tweetId);
+        allow delete: if isAuthenticatedUser(request, uid);
+      }
+    }
+
+    match /tweets/{tweetId} {
+      allow get;
+      allow list: if request.query.limit <= 30;
+    }
+  }
+}

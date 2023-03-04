@@ -319,3 +319,35 @@ export const onDeleteLike = functions.region('asia-northeast1').firestore.docume
 
 //   functions.logger.info("end!", {structuredData: true})
 // })
+
+
+export const saveTestTweets = functions.region('asia-northeast1').https.onCall(async () => {
+  if (process.env.FIREBASE_DEBUG_MODE === 'false') {
+    return
+  }
+
+  for (let i = 0; i < 40; i++) {
+    const tweetDataP = await admin.firestore().collection('tweets').doc(`test_${i}`).get()
+    if (tweetDataP.exists) {
+      continue
+    }
+
+    await admin.firestore().collection('tweets').doc(`test_${i}`).set({
+      text: `test_${i}`,
+      replyCount: 0,
+      twitterLikeCount: 0,
+      retweetCount: 0,
+      name: 'name',
+      username: 'username',
+      profileImageUrl: 'https://pbs.twimg.com/profile_images/1066244463725445120/m-owVBJX_normal.jpg',
+      url: 'https://twitter.com/sacckey/status/1591004599854714880',
+      video: 'https://video.twimg.com/ext_tw_video/1591004490899288065/pu/vid/1280x720/5v5fBoq-9tFUXVKo.mp4?tag=12',
+      twitterUid: 'twitterUid',
+      likeCount: 0,
+      active: true,
+      publishedAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    })
+  }
+})

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
-import { getAuth, signInWithPopup, TwitterAuthProvider, signOut } from "firebase/auth"
+import { signInWithPopup, TwitterAuthProvider, signOut } from "firebase/auth"
 import { useAuthContext } from "../contexts/AuthContext"
-import { app, db } from "../lib/firebase"
+import { db, auth } from "../lib/firebase"
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
 import Link from "next/link"
 
@@ -11,7 +11,6 @@ const Header = () => {
   const isLoggedIn = !!user
   const isLoading = !!signInChecking
   const router = useRouter()
-  const auth = getAuth(app)
   const provider = new TwitterAuthProvider()
   const insideRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
