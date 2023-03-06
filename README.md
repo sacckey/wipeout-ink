@@ -3,12 +3,16 @@ Twitterに投稿されたスプラトゥーン3のwipeout動画を表示する�
 
 ## ローカルで動かす
 ```
-cd functions
+git clone git@github.com:sacckey/wipeout-ink.git
+
+cd wipeout-ink/functions
+npm install
 npm run build
 cd ..
 
 docker compose up
 
+yarn install
 yarn dev
 ```
 
