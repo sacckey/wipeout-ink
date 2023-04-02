@@ -34,7 +34,7 @@ export const updateTweets = functions.region('asia-northeast1').pubsub.schedule(
 
   } catch (e:any) {
     console.log('error!!!!')
-    console.error(e)
+    functions.logger.error(e)
   }
 
   functions.logger.info("end!", {structuredData: true})
