@@ -99,14 +99,14 @@ export const saveTweets = async (tweets: any) => {
 }
 
 
-const deleteLike = async (targetTweet: any) => {
-  const likes = await admin.firestore().collectionGroup('likes').where('tweet.ref', '==', targetTweet.ref).get()
-  likes.docs.map(async (doc: any) => {
-    console.log('delete!!!!!!!!')
-    functions.logger.info(doc, {structuredData: true})
-    await doc.ref.delete()
-  })
-}
+// const deleteLike = async (targetTweet: any) => {
+//   const likes = await admin.firestore().collectionGroup('likes').where('tweet.ref', '==', targetTweet.ref).get()
+//   likes.docs.map(async (doc: any) => {
+//     console.log('delete!!!!!!!!')
+//     functions.logger.info(doc, {structuredData: true})
+//     await doc.ref.delete()
+//   })
+// }
 
 
 export const updateAndDelete = async (targetTweets: any) => {
@@ -152,13 +152,13 @@ export const updateAndDelete = async (targetTweets: any) => {
     const resTweet = resTweets[tweetId]
 
     if (!resTweet){
-      functions.logger.info("inactive!!!!!!!!!", {structuredData: true})
-      console.log(tweetId)
-      await deleteLike(targetTweet)
-      tweet.active = false
-      tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
+      functions.logger.info(`inactive: ${tweetId}`)
+      // await deleteLike(targetTweet)
+      // tweet.active = false
+      // tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
     }
     else {
+      tweet.active = true
       tweet.replyCount = resTweet.public_metrics?.reply_count ?? tweet.replyCount
       tweet.twitterLikeCount = resTweet.public_metrics?.like_count ?? tweet.twitterLikeCount
       tweet.retweetCount = resTweet.public_metrics?.retweet_count ?? tweet.retweetCount

@@ -21,17 +21,21 @@ export const updateTweets = functions.region('asia-northeast1').pubsub.schedule(
   try {
     const tweetSnapshots = await admin.firestore().collection('tweets').where('active', '==', true).orderBy('publishedAt', 'desc').limit(1000).get()
 
-    let targetTweets:any[] = []
-    tweetSnapshots.docs.map(async (doc: any) => {
+    const targetTweetsSet:any[] = []
+    const targetTweets:any[] = []
+    tweetSnapshots.docs.map((doc: any) => {
       targetTweets.push(doc)
 
       if(targetTweets.length === 100) {
-        await updateAndDelete(targetTweets)
-        targetTweets = []
+        targetTweetsSet.push([...targetTweets])
+        targetTweets.length = 0
       }
     })
-    await updateAndDelete(targetTweets)
+    targetTweetsSet.push([...targetTweets])
 
+    await Promise.all(targetTweetsSet.map(async (targets: any) => {
+      await updateAndDelete(targets)
+    }))
   } catch (e:any) {
     console.log('error!!!!')
     functions.logger.error(e)
