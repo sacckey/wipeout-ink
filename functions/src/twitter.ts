@@ -81,6 +81,8 @@ export const searchRecentTweets = async () => {
 }
 
 export const searchTweetsById = async (ids: string[]) => {
+  if (ids.length === 0) return []
+
   const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
   const res = await client.tweets.findTweetsById({
     "ids": ids,
@@ -145,15 +147,3 @@ export const updateTweets = async (tweets: any) => {
 //  await deleteLike(targetTweet)
 //  tweet.active = false
 //  tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
-
-
-export const updateAndDelete = async (targetTweets: any) => {
-  if (targetTweets.length === 0) {
-    return
-  }
-
-  const targetTweetIds = targetTweets.map((targetTweet: any) => targetTweet.id)
-
-  const tweets = await searchTweetsById(targetTweetIds)
-  await updateTweets(tweets)
-}

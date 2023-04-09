@@ -1,6 +1,6 @@
 import { admin } from './firebaseAdmin'
 import * as functions from "firebase-functions"
-import { searchRecentTweets, createTweets, updateAndDelete } from './twitter'
+import { searchRecentTweets, createTweets, searchTweetsById, updateTweets } from './twitter'
 
 export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('every 5 minutes').onRun(async () => {
   functions.logger.info("start!")
@@ -15,26 +15,27 @@ export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('
   functions.logger.info("end!")
 })
 
-export const updateTweets = functions.region('asia-northeast1').pubsub.schedule('0 4 * * *').timeZone('Asia/Tokyo').onRun(async (context) => {
+export const refetchTweets = functions.region('asia-northeast1').pubsub.schedule('0 4 * * *').timeZone('Asia/Tokyo').onRun(async (context) => {
   functions.logger.info("start!", {structuredData: true})
 
   try {
     const tweetSnapshots = await admin.firestore().collection('tweets').where('active', '==', true).orderBy('publishedAt', 'desc').limit(1000).get()
 
-    const targetTweetsSet:any[] = []
-    const targetTweets:any[] = []
-    tweetSnapshots.docs.map((doc: any) => {
-      targetTweets.push(doc)
+    const tweetIdsSet:string[][] = []
+    const tweetIds:string[] = []
+    tweetSnapshots.docs.map((doc) => {
+      tweetIds.push(doc.id)
 
-      if(targetTweets.length === 100) {
-        targetTweetsSet.push([...targetTweets])
-        targetTweets.length = 0
+      if (tweetIds.length === 100) {
+        tweetIdsSet.push([...tweetIds])
+        tweetIds.length = 0
       }
     })
-    targetTweetsSet.push([...targetTweets])
+    tweetIdsSet.push([...tweetIds])
 
-    await Promise.all(targetTweetsSet.map(async (targets: any) => {
-      await updateAndDelete(targets)
+    await Promise.all(tweetIdsSet.map(async (ids) => {
+      const tweets = await searchTweetsById(ids)
+      await updateTweets(tweets)
     }))
   } catch (e:any) {
     console.log('error!!!!')
