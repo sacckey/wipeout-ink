@@ -1,12 +1,12 @@
 import { admin } from './firebaseAdmin'
 import * as functions from "firebase-functions"
-import { searchTweets, createTweets, updateAndDelete } from './twitter'
+import { searchRecentTweets, createTweets, updateAndDelete } from './twitter'
 
 export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('every 5 minutes').onRun(async () => {
   functions.logger.info("start!")
 
   try {
-    const tweets = await searchTweets()
+    const tweets = await searchRecentTweets()
     await createTweets(tweets)
   } catch (e: any) {
     functions.logger.error(e)

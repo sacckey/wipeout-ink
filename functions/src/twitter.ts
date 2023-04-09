@@ -49,7 +49,7 @@ const res2tweets = (res: any) => {
   return tweets
 }
 
-export const searchTweets = async () => {
+export const searchRecentTweets = async () => {
   const startTime = new Date()
   startTime.setMinutes(startTime.getMinutes() - 20)
   const startTimeString = startTime.toISOString()
@@ -60,6 +60,30 @@ export const searchTweets = async () => {
     "query": "#Splatoon3 #wipeout #NintendoSwitch has:videos -is:retweet",
     "start_time": startTimeString,
     "max_results": 100,
+    "tweet.fields": [
+      "source",
+      "public_metrics",
+      "created_at"
+    ],
+    "expansions": [
+      "author_id",
+      "attachments.media_keys"
+    ],
+    "media.fields": [
+      "variants",
+    ],
+    "user.fields": [
+      "profile_image_url"
+    ]
+  })
+
+  return res2tweets(res)
+}
+
+export const searchTweetsById = async (ids: string[]) => {
+  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
+  const res = await client.tweets.findTweetsById({
+    "ids": ids,
     "tweet.fields": [
       "source",
       "public_metrics",
@@ -129,26 +153,7 @@ export const updateAndDelete = async (targetTweets: any) => {
   }
 
   const targetTweetIds = targetTweets.map((targetTweet: any) => targetTweet.id)
-  const client = new Client(process.env.TWITTER_BEARER_TOKEN as string)
-  const res = await client.tweets.findTweetsById({
-    "ids": targetTweetIds,
-    "tweet.fields": [
-      "source",
-      "public_metrics",
-      "created_at"
-    ],
-    "expansions": [
-      "author_id",
-      "attachments.media_keys"
-    ],
-    "media.fields": [
-      "variants",
-    ],
-    "user.fields": [
-      "profile_image_url"
-    ]
-  })
 
-  const tweets = res2tweets(res)
+  const tweets = await searchTweetsById(targetTweetIds)
   await updateTweets(tweets)
 }
