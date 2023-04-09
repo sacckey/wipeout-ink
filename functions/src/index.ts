@@ -54,7 +54,7 @@ export const onCreateLike = functions.region('asia-northeast1').firestore.docume
       likeCount: admin.firestore.FieldValue.increment(1),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })
-  } catch (e :any) {
+  } catch (e: any) {
     functions.logger.info("error!")
     functions.logger.error(e)
   }
