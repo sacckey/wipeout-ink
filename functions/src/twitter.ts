@@ -1,5 +1,5 @@
 import { admin } from './firebaseAdmin'
-import * as functions from "firebase-functions"
+// import * as functions from "firebase-functions"
 import { Client } from "twitter-api-sdk"
 // import { TwitterResponse } from "../node_modules/twitter-api-sdk/dist/types"
 // import { tweetsRecentSearch, components } from "../node_modules/twitter-api-sdk/dist/gen/openapi-types"
@@ -42,8 +42,6 @@ const res2tweets = (res: any) => {
       url: `https://twitter.com/${author?.username}/status/${tweet.id}`,
       video: tweet.attachments?.media_keys && media_key2video[tweet.attachments?.media_keys[0]],
       twitterUid: tweet.author_id,
-      likeCount: 0,
-      active: true,
       publishedAt: admin.firestore.Timestamp.fromDate(new Date(tweet.created_at))
     })
   })
@@ -82,7 +80,7 @@ export const searchTweets = async () => {
   return res2tweets(res)
 }
 
-export const saveTweets = async (tweets: any) => {
+export const createTweets = async (tweets: any) => {
   for (const tweet of tweets) {
     const tweetDataP = await admin.firestore().collection('tweets').doc(tweet.id).get()
     if (tweetDataP.exists) {
@@ -91,11 +89,22 @@ export const saveTweets = async (tweets: any) => {
 
     await admin.firestore().collection('tweets').doc(tweet.id).set({
       ...tweet,
+      likeCount: 0,
+      active: true,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })
-    console.log(`saved: ${tweet.id}`)
+    console.log(`created: ${tweet.id}`)
   }
+}
+
+export const updateTweets = async (tweets: any) => {
+  tweets.map(async (tweet: any) => {
+    await admin.firestore().collection('tweets').doc(tweet.id).update({
+      ...tweet,
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    })
+  })
 }
 
 
@@ -107,6 +116,11 @@ export const saveTweets = async (tweets: any) => {
 //     await doc.ref.delete()
 //   })
 // }
+
+//  functions.logger.info(`inactive: ${tweetId}`)
+//  await deleteLike(targetTweet)
+//  tweet.active = false
+//  tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
 
 
 export const updateAndDelete = async (targetTweets: any) => {
@@ -135,42 +149,6 @@ export const updateAndDelete = async (targetTweets: any) => {
     ]
   })
 
-  const authors: {[prop: string]: any} = {}
-  res?.includes?.users?.map((author: any) => {
-    authors[author.id] = author
-  })
-
-  const resTweets: {[prop: string]: any} = {}
-  res?.data?.map((tweet: any) => {
-    resTweets[tweet.id] = tweet
-  })
-
-  targetTweets.map(async (targetTweet: any) => {
-    const tweet = targetTweet.data()
-    const tweetId = targetTweet.id
-    const author = authors[tweet.twitterUid]
-    const resTweet = resTweets[tweetId]
-
-    if (!resTweet){
-      functions.logger.info(`inactive: ${tweetId}`)
-      // await deleteLike(targetTweet)
-      // tweet.active = false
-      // tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
-    }
-    else {
-      tweet.active = true
-      tweet.replyCount = resTweet.public_metrics?.reply_count ?? tweet.replyCount
-      tweet.twitterLikeCount = resTweet.public_metrics?.like_count ?? tweet.twitterLikeCount
-      tweet.retweetCount = resTweet.public_metrics?.retweet_count ?? tweet.retweetCount
-      tweet.name = author?.name
-      tweet.username = author?.username
-      tweet.profileImageUrl = author?.profile_image_url
-      tweet.url = `https://twitter.com/${author?.username}/status/${resTweet.id}`
-      tweet.updatedAt = admin.firestore.FieldValue.serverTimestamp()
-    }
-
-    functions.logger.info(tweet, {structuredData: true})
-
-    await admin.firestore().collection('tweets').doc(tweetId).set(tweet)
-  })
+  const tweets = res2tweets(res)
+  await updateTweets(tweets)
 }
