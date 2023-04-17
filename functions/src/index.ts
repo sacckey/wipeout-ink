@@ -8,7 +8,7 @@ export const fetchTweets = functions.region('asia-northeast1').pubsub.schedule('
   try {
     const tweets = await searchRecentTweets()
     await createTweets(tweets)
-  } catch (e: any) {
+  } catch (e) {
     functions.logger.info("error!")
     functions.logger.error(e)
   }
@@ -38,7 +38,7 @@ export const refetchTweets = functions.region('asia-northeast1').pubsub.schedule
       const tweets = await searchTweetsById(ids)
       await updateTweets(tweets)
     }))
-  } catch (e: any) {
+  } catch (e) {
     functions.logger.info("error!")
     functions.logger.error(e)
   }
@@ -54,7 +54,7 @@ export const onCreateLike = functions.region('asia-northeast1').firestore.docume
       likeCount: admin.firestore.FieldValue.increment(1),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })
-  } catch (e: any) {
+  } catch (e) {
     functions.logger.info("error!")
     functions.logger.error(e)
   }
@@ -70,7 +70,7 @@ export const onDeleteLike = functions.region('asia-northeast1').firestore.docume
       likeCount: admin.firestore.FieldValue.increment(-1),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })
-  } catch (e: any) {
+  } catch (e) {
     functions.logger.info("error!")
     functions.logger.error(e)
   }
