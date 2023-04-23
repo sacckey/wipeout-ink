@@ -155,7 +155,7 @@ export const createTweets = async (tweets: any) => {
 }
 
 export const updateTweets = async (tweets: any) => {
-  tweets.map(async (tweet: any) => {
+  return tweets.map(async (tweet: any) => {
     await admin.firestore().collection('tweets').doc(tweet.id).update({
       ...tweet,
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
