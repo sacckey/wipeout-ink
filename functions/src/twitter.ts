@@ -3,18 +3,18 @@ import { Client } from "twitter-api-sdk"
 import { TwitterResponse } from "../node_modules/twitter-api-sdk/dist/types"
 import { tweetsRecentSearch } from "../node_modules/twitter-api-sdk/dist/gen/openapi-types"
 
-type variants = {
+type variant = {
   bit_rate: number
   content_type: string
   url: string
-}[]
+}
 
 type mediaItem = {
   height?: number
   media_key?: string
   type: string
   width?: number
-  variants?: variants
+  variants?: variant[]
 }
 
 type author = {
