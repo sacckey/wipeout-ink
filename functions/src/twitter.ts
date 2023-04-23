@@ -43,8 +43,9 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
 
   const media_key2video: {[prop: string]: string} = {}
   res?.includes?.media?.map((media: mediaItem) => {
-    if (media.media_key){
-      media_key2video[media.media_key] = media.variants?.sort((a, b) => b.bit_rate - a.bit_rate)[0].url ?? ''
+    const video = media.variants?.sort((a, b) => b.bit_rate - a.bit_rate)[0].url
+    if (media.media_key && video) {
+      media_key2video[media.media_key] = video
     }
   })
 
