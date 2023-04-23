@@ -42,7 +42,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
   if (!res.data) return []
 
   const media_key2video: {[prop: string]: string} = {}
-  res?.includes?.media?.map((media: mediaItem) => {
+  res?.includes?.media?.forEach((media: mediaItem) => {
     const video = media.variants?.sort((a, b) => b.bit_rate - a.bit_rate)[0].url
     if (media.media_key && video) {
       media_key2video[media.media_key] = video
@@ -50,7 +50,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
   })
 
   const authors: {[prop: string]: author} = {}
-  res?.includes?.users?.map((author) => {
+  res?.includes?.users?.forEach((author) => {
     authors[author.id] = author
   })
 
