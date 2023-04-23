@@ -24,7 +24,7 @@ export const refetchTweets = functions.region('asia-northeast1').pubsub.schedule
 
     const tweetIdsSet: string[][] = []
     const tweetIds: string[] = []
-    tweetSnapshots.docs.map((doc) => {
+    tweetSnapshots.docs.forEach((doc) => {
       tweetIds.push(doc.id)
 
       if (tweetIds.length === 100) {
