@@ -136,7 +136,7 @@ export const searchTweetsById = async (ids: string[]) => {
   return res2tweets(res)
 }
 
-export const createTweets = async (tweets: any) => {
+export const createTweets = async (tweets: tweet[]) => {
   for (const tweet of tweets) {
     const tweetDataP = await admin.firestore().collection('tweets').doc(tweet.id).get()
     if (tweetDataP.exists) {
@@ -154,8 +154,8 @@ export const createTweets = async (tweets: any) => {
   }
 }
 
-export const updateTweets = async (tweets: any) => {
-  return tweets.map(async (tweet: any) => {
+export const updateTweets = async (tweets: tweet[]) => {
+  return tweets.map(async (tweet) => {
     await admin.firestore().collection('tweets').doc(tweet.id).update({
       ...tweet,
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -164,9 +164,9 @@ export const updateTweets = async (tweets: any) => {
 }
 
 
-// const deleteLike = async (targetTweet: any) => {
+// const deleteLike = async (targetTweet) => {
 //   const likes = await admin.firestore().collectionGroup('likes').where('tweet.ref', '==', targetTweet.ref).get()
-//   likes.docs.map(async (doc: any) => {
+//   likes.docs.map(async (doc) => {
 //     console.log('delete!!!!!!!!')
 //     functions.logger.info(doc, {structuredData: true})
 //     await doc.ref.delete()
