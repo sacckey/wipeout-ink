@@ -3,18 +3,18 @@ import { Client } from "twitter-api-sdk"
 import { TwitterResponse } from "../node_modules/twitter-api-sdk/dist/types"
 import { tweetsRecentSearch } from "../node_modules/twitter-api-sdk/dist/gen/openapi-types"
 
-type variants = {
+type variant = {
   bit_rate: number
   content_type: string
   url: string
-}[]
+}
 
 type mediaItem = {
   height?: number
   media_key?: string
   type: string
   width?: number
-  variants?: variants
+  variants?: variant[]
 }
 
 type author = {
@@ -35,7 +35,7 @@ type tweet = {
   url: string
   video: string
   twitterUid: string
-  publishedAt: admin.firestore.Timestamp
+  publishedAt: number
 }
 
 const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
@@ -72,7 +72,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
       url: `https://twitter.com/${author.username}/status/${tweet.id}`,
       video,
       twitterUid: tweet.author_id,
-      publishedAt: admin.firestore.Timestamp.fromDate(new Date(tweet.created_at))
+      publishedAt: (new Date(tweet.created_at)).getTime()
     })
   }
 

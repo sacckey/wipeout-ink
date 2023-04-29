@@ -94,6 +94,7 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
 
     publishedAt.setMinutes(publishedAt.getMinutes() + 1)
     await admin.firestore().collection('tweets').doc(`test_${i}`).set({
+      id: `test_${i}`,
       text: `test_${i}`,
       replyCount: 0,
       twitterLikeCount: 0,
@@ -112,3 +113,14 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
     })
   }
 })
+
+
+// adhoc
+// const tweetSnapshots = await admin.firestore().collection('tweets').limit(1000).get()
+// tweetSnapshots.docs.map(async (doc) => {
+//   const tweet = doc.data()
+
+//   await admin.firestore().collection('tweets').doc(doc.id).update({
+//     publishedAt: tweet.publishedAt.toDate().getTime()
+//   })
+// })

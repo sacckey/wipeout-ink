@@ -79,7 +79,7 @@ const Tweet = ({ tweet }: any) => {
                 {tweet.name}
                 <span className='text-sm font-normal opacity-70 group-hover:opacity-100 duration-300'>@{tweet.username}</span>
               </span>
-              <span className='text-sm opacity-80 group-hover:opacity-100 duration-300'>{tweet.publishedAt.toLocaleString()}</span>
+              <span className='text-sm opacity-80 group-hover:opacity-100 duration-300'>{(new Date(tweet.publishedAt)).toUTCString()}</span>
             </div>
           </Link>
         </div>
