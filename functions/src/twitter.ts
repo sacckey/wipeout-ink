@@ -35,7 +35,7 @@ type tweet = {
   url: string
   video: string
   twitterUid: string
-  publishedAt: admin.firestore.Timestamp
+  publishedAt: number
 }
 
 const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
@@ -72,7 +72,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
       url: `https://twitter.com/${author.username}/status/${tweet.id}`,
       video,
       twitterUid: tweet.author_id,
-      publishedAt: admin.firestore.Timestamp.fromDate(new Date(tweet.created_at))
+      publishedAt: (new Date(tweet.created_at)).getTime()
     })
   }
 
