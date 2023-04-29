@@ -19,7 +19,7 @@ export const fetchTweets = (tweetSnapshots: any) => {
       video: tweet.video,
       twitterUid: tweet.twitterUid,
       likeCount: tweet.likeCount,
-      publishedAt: tweet.publishedAt
+      publishedAt: (typeof tweet.publishedAt) === 'number' ? tweet.publishedAt : tweet.publishedAt.toDate().getTime()
     }
   })
 
