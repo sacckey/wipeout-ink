@@ -107,7 +107,7 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
       twitterUid: 'twitterUid',
       likeCount: 0,
       active: true,
-      publishedAt,
+      publishedAt: publishedAt.getTime(),
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })
