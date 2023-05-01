@@ -4,7 +4,7 @@ import { TwitterResponse } from "../node_modules/twitter-api-sdk/dist/types"
 import { tweetsRecentSearch } from "../node_modules/twitter-api-sdk/dist/gen/openapi-types"
 
 type variant = {
-  bit_rate: number
+  bit_rate?: number
   content_type: string
   url: string
 }
@@ -43,7 +43,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
 
   const media_key2video: {[prop: string]: string} = {}
   res?.includes?.media?.forEach((media: mediaItem) => {
-    const video = media.variants?.sort((a, b) => b.bit_rate - a.bit_rate)[0].url
+    const video = media.variants?.sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))[0].url
     if (media.media_key && video) {
       media_key2video[media.media_key] = video
     }
