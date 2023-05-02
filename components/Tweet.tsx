@@ -1,6 +1,6 @@
-import { useAuthContext } from "../contexts/AuthContext"
+import { useAuthContext } from "@/contexts/AuthContext"
 import Link from "next/link"
-import { db } from "../lib/firebase"
+import { db } from "@/lib/firebase"
 import { doc, setDoc, serverTimestamp, deleteDoc } from "firebase/firestore"
 
 const Tweet = ({ tweet }: any) => {

@@ -1,6 +1,6 @@
-import { fetchTweets } from 'lib/fetchTweets'
-import Tweets from '../components/Tweets'
-import { admin } from 'lib/firebaseAdmin'
+import { fetchTweets } from '@/lib/fetchTweets'
+import Tweets from '@/components/Tweets'
+import { admin } from '@/lib/firebaseAdmin'
 
 export default function Ranking({ tweets }: any) {
   return (
