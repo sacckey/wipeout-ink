@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import { fetchTweets } from 'lib/fetchTweets'
-import { db } from "../lib/firebase"
-import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp, where } from "firebase/firestore"
-import Tweets from '../components/Tweets'
+import { fetchTweets } from '@/lib/fetchTweets'
+import { db } from "@/lib/firebase"
+import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
+import Tweets from '@/components/Tweets'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { admin } from 'lib/firebaseAdmin'
+import { admin } from '@/lib/firebaseAdmin'
 
 export default function Home({ tweets }: any) {
   const [list, setList] = useState(tweets)

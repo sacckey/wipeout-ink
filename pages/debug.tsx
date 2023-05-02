@@ -1,7 +1,7 @@
 import { httpsCallable } from 'firebase/functions'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { functions } from '../lib/firebase'
+import { functions } from '@/lib/firebase'
 
 export default function Debug() {
   const router = useRouter()

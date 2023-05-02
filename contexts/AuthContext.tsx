@@ -2,7 +2,7 @@ import { ReactNode, createContext, useState, useContext, useEffect, Dispatch, Se
 import { onAuthStateChanged } from "firebase/auth"
 import type { User } from "firebase/auth"
 import { useRouter } from "next/router"
-import { db, auth } from "../lib/firebase"
+import { db, auth } from "@/lib/firebase"
 import { query, collection, getDocs, orderBy } from "firebase/firestore"
 
 export type UserType = User | null

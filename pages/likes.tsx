@@ -1,9 +1,9 @@
-import Tweets from '../components/Tweets'
+import Tweets from '@/components/Tweets'
 import { useEffect, useState } from 'react'
-import { useAuthContext } from '../contexts/AuthContext'
+import { useAuthContext } from '@/contexts/AuthContext'
 import { collection, documentId, getDocs, limit, query, where } from "firebase/firestore"
-import { fetchTweets } from 'lib/fetchTweets'
-import { db } from "../lib/firebase"
+import { fetchTweets } from '@/lib/fetchTweets'
+import { db } from "@/lib/firebase"
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function Likes() {

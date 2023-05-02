@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import { signInWithPopup, TwitterAuthProvider, signOut } from "firebase/auth"
-import { useAuthContext } from "../contexts/AuthContext"
-import { db, auth } from "../lib/firebase"
+import { useAuthContext } from "@/contexts/AuthContext"
+import { db, auth } from "@/lib/firebase"
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
 import Link from "next/link"
 
