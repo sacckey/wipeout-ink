@@ -83,16 +83,8 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
     return
   }
 
-  const publishedAt = new Date()
-  publishedAt.setHours(publishedAt.getHours() - 1)
-
+  const publishedAt = (new Date()).getTime() - 3600 * 1000
   for (let i = 0; i < 40; i++) {
-    const tweetDataP = await admin.firestore().collection('tweets').doc(`test_${i}`).get()
-    if (tweetDataP.exists) {
-      continue
-    }
-
-    publishedAt.setMinutes(publishedAt.getMinutes() + 1)
     await admin.firestore().collection('tweets').doc(`test_${i}`).set({
       id: `test_${i}`,
       text: `test_${i}`,
@@ -107,7 +99,7 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
       twitterUid: 'twitterUid',
       likeCount: 0,
       active: true,
-      publishedAt: publishedAt.getTime(),
+      publishedAt: publishedAt + i * 1000,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     })

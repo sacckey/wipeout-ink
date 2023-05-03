@@ -2,8 +2,9 @@ import { useAuthContext } from "@/contexts/AuthContext"
 import Link from "next/link"
 import { db } from "@/lib/firebase"
 import { doc, setDoc, serverTimestamp, deleteDoc } from "firebase/firestore"
+import { TweetType } from "@/types/tweet"
 
-const Tweet = ({ tweet }: any) => {
+const Tweet = ({ tweet }: { tweet: TweetType}) => {
   const { user, signInChecking, likeTweetIds, setLikeTweetIds } = useAuthContext()
   const isLoggedIn = !!user
   const isLoading = !!signInChecking
