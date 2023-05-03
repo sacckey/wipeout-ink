@@ -1,4 +1,6 @@
-export type Tweet = {
+import { Timestamp } from "firebase/firestore"
+
+export type TweetType = {
   id: string
   text: string
   replyCount: number
@@ -12,4 +14,10 @@ export type Tweet = {
   twitterUid: string
   likeCount: number
   publishedAt: number
+}
+
+export type TweetWithMetaType = TweetType & {
+  active: boolean
+  createdAt: Timestamp,
+  updatedAt: Timestamp
 }
