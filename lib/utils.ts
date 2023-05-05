@@ -1,7 +1,21 @@
 import { TweetType, TweetWithMetaType } from "@/types/tweet"
 
 export const tweetWithMeta2Tweet = (tweetWithMeta: TweetWithMetaType): TweetType => {
-  return (({ active, createdAt, updatedAt, ...rest }) => rest)(tweetWithMeta)
+  return {
+    id: tweetWithMeta.id,
+    text: tweetWithMeta.text,
+    replyCount: tweetWithMeta.replyCount,
+    twitterLikeCount: tweetWithMeta.twitterLikeCount,
+    retweetCount: tweetWithMeta.retweetCount,
+    name: tweetWithMeta.name,
+    username: tweetWithMeta.username,
+    profileImageUrl: tweetWithMeta.profileImageUrl,
+    url: tweetWithMeta.url,
+    video: tweetWithMeta.video,
+    twitterUid: tweetWithMeta.twitterUid,
+    likeCount: tweetWithMeta.likeCount,
+    publishedAt: tweetWithMeta.publishedAt
+  }
 }
 
 export const formatMetric = (number: number) => {

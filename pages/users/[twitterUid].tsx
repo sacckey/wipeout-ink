@@ -11,7 +11,7 @@ export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], 
   const [list, setList] = useState(tweets)
   const [hasMore, setHasMore] = useState(tweets.length > 0)
 
-  const loadMore = async (_page: number) => {
+  const loadMore = async () => {
     const lastTweetDate = list.at(-1)?.publishedAt
 
     if (!lastTweetDate) {

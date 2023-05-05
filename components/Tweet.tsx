@@ -3,6 +3,7 @@ import Link from "next/link"
 import { db } from "@/lib/firebase"
 import { doc, setDoc, serverTimestamp, deleteDoc } from "firebase/firestore"
 import { TweetType } from "@/types/tweet"
+import Image from 'next/image'
 
 const Tweet = ({ tweet }: { tweet: TweetType}) => {
   const { user, signInChecking, likeTweetIds, setLikeTweetIds } = useAuthContext()
@@ -74,7 +75,7 @@ const Tweet = ({ tweet }: { tweet: TweetType}) => {
       <div className='flex'>
         <div className='flex justify-between'>
           <Link className='flex items-center gap-3 group' href={tweet.url}>
-            <img className='rounded-full h-12 w-12' src={tweet.profileImageUrl} />
+            <Image className='rounded-full' width={48} height={48} src={tweet.profileImageUrl} alt='user icon' />
             <div className='flex flex-col leading-snug'>
               <span className='text-sm font-semibold flex gap-2'>
                 {tweet.name}
