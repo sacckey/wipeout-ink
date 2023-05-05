@@ -84,7 +84,7 @@ const Header = () => {
       if (isLoggedIn) {
         return (
           <div className="relative">
-            <Image className="rounded-full cursor-pointer" width={40} height={40} src={user.photoURL ?? ''} alt='user icon' />
+            <Image className="rounded-full cursor-pointer" width={40} height={40} src={user.photoURL ?? '/favicon.ico'} alt='user icon' />
             {open &&
             <div className="absolute -right-5">
               <ul className="py-1 text-sm" aria-labelledby="avatarButton">
