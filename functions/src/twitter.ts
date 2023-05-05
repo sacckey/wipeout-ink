@@ -68,7 +68,7 @@ const res2tweets = (res: TwitterResponse<tweetsRecentSearch>) => {
       retweetCount: tweet.public_metrics?.retweet_count ?? 0,
       name: author.name,
       username: author.username,
-      profileImageUrl: author.profile_image_url ?? '',
+      profileImageUrl: author.profile_image_url ?? '/favicon.ico',
       url: `https://twitter.com/${author.username}/status/${tweet.id}`,
       video,
       twitterUid: tweet.author_id,

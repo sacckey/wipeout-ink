@@ -8,15 +8,13 @@ import { TweetType, TweetWithMetaType } from '@/types/tweet'
 import { tweetWithMeta2Tweet } from '@/lib/utils'
 
 export default function Likes() {
-  const { user, signInChecking, likeTweetIds } = useAuthContext()
-  const isLoggedIn = !!user
-  const isLoading = !!signInChecking
+  const { likeTweetIds } = useAuthContext()
   const [list, setList] = useState<TweetType[]>([])
   const [hasMore, setHasMore] = useState(false)
 
   useEffect(() => {
     const getTweets = async () => {
-      if (!isLoading && user && likeTweetIds && likeTweetIds.length > 0) {
+      if (likeTweetIds && likeTweetIds.length > 0) {
         const tweetIds = likeTweetIds.slice(0,10)
         const q = query(collection(db, "tweets"), where(documentId(), 'in', tweetIds), limit(10))
         const tweetSnapshots = await getDocs(q) as QuerySnapshot<TweetWithMetaType>
@@ -28,7 +26,7 @@ export default function Likes() {
       }
     }
     getTweets()
-  }, [isLoading])
+  }, [likeTweetIds])
 
   const loadMore = async (page: number) => {
     if (!likeTweetIds) {

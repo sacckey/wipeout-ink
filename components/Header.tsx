@@ -5,6 +5,7 @@ import { useAuthContext } from "@/contexts/AuthContext"
 import { db, auth } from "@/lib/firebase"
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
 import Link from "next/link"
+import Image from 'next/image'
 
 const Header = () => {
   const { user, signInChecking } = useAuthContext()
@@ -83,7 +84,7 @@ const Header = () => {
       if (isLoggedIn) {
         return (
           <div className="relative">
-            <img className="w-10 h-10 rounded-full cursor-pointer" src={user.photoURL?.toString()}></img>
+            <Image className="rounded-full cursor-pointer" width={40} height={40} src={user.photoURL ?? '/favicon.ico'} alt='user icon' />
             {open &&
             <div className="absolute -right-5">
               <ul className="py-1 text-sm" aria-labelledby="avatarButton">
