@@ -9,7 +9,7 @@ export default function Debug() {
     const saveTestTweets = httpsCallable(functions, 'saveTestTweets')
     await saveTestTweets()
 
-    router.push("/")
+    router.push('/')
   }
 
   return (

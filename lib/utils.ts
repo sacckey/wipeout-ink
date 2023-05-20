@@ -1,4 +1,4 @@
-import { TweetType, TweetWithMetaType } from "@/types/tweet"
+import { TweetType, TweetWithMetaType } from '@/types/tweet'
 
 export const tweetWithMeta2Tweet = (tweetWithMeta: TweetWithMetaType): TweetType => {
   return {

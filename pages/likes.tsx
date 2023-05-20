@@ -1,8 +1,8 @@
 import Tweets from '@/components/Tweets'
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { collection, documentId, getDocs, limit, query, QuerySnapshot, where } from "firebase/firestore"
-import { db } from "@/lib/firebase"
+import { collection, documentId, getDocs, limit, query, QuerySnapshot, where } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import InfiniteScroll from 'react-infinite-scroller'
 import { TweetType, TweetWithMetaType } from '@/types/tweet'
 import { tweetWithMeta2Tweet } from '@/lib/utils'
@@ -16,7 +16,7 @@ export default function Likes() {
     const getTweets = async () => {
       if (likeTweetIds && likeTweetIds.length > 0) {
         const tweetIds = likeTweetIds.slice(0,10)
-        const q = query(collection(db, "tweets"), where(documentId(), 'in', tweetIds), limit(10))
+        const q = query(collection(db, 'tweets'), where(documentId(), 'in', tweetIds), limit(10))
         const tweetSnapshots = await getDocs(q) as QuerySnapshot<TweetWithMetaType>
         const tweets = tweetSnapshots.docs.map(doc => tweetWithMeta2Tweet(doc.data()))
         tweets.sort((a, b) => tweetIds.indexOf(a.id) - tweetIds.indexOf(b.id))
@@ -39,7 +39,7 @@ export default function Likes() {
       return
     }
 
-    const q = query(collection(db, "tweets"), where(documentId(), 'in', tweetIds), limit(10))
+    const q = query(collection(db, 'tweets'), where(documentId(), 'in', tweetIds), limit(10))
     const tweetSnapshots = await getDocs(q) as QuerySnapshot<TweetWithMetaType>
     const tweets = tweetSnapshots.docs.map(doc => tweetWithMeta2Tweet(doc.data()))
     tweets.sort((a, b) => tweetIds.indexOf(a.id) - tweetIds.indexOf(b.id))

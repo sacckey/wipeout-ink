@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react"
-import { useRouter } from "next/router"
-import { signInWithPopup, TwitterAuthProvider, signOut } from "firebase/auth"
-import { useAuthContext } from "@/contexts/AuthContext"
-import { db, auth } from "@/lib/firebase"
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore"
-import Link from "next/link"
+import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import { signInWithPopup, TwitterAuthProvider, signOut } from 'firebase/auth'
+import { useAuthContext } from '@/contexts/AuthContext'
+import { db, auth } from '@/lib/firebase'
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import Link from 'next/link'
 import Image from 'next/image'
 
 const Header = () => {
@@ -20,16 +20,16 @@ const Header = () => {
     const credential = await signInWithPopup(auth, provider)
     const user = credential.user
 
-    const snapShot = await getDoc(doc(db, "users", user.uid))
+    const snapShot = await getDoc(doc(db, 'users', user.uid))
     if (snapShot.exists()) {
-      await updateDoc(doc(db, "users", user.uid), {
+      await updateDoc(doc(db, 'users', user.uid), {
         name: user.displayName,
         photoURL: user.photoURL,
         updatedAt: serverTimestamp()
       })
     }
     else {
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, 'users', user.uid), {
         name: user.displayName,
         photoURL: user.photoURL,
         twitterUid: user.providerData[0].uid,
@@ -39,7 +39,7 @@ const Header = () => {
     }
 
     setOpen(false)
-    router.push("/")
+    router.push('/')
   }
 
   const logout = async () => {
@@ -67,12 +67,12 @@ const Header = () => {
     }
 
     //クリックイベントを設定
-    document.addEventListener("click", hundleClickOutside)
+    document.addEventListener('click', hundleClickOutside)
 
     //クリーンアップ関数
     return () => {
       //コンポーネントがアンマウント、再レンダリングされたときにクリックイベントを削除
-      document.removeEventListener("click", hundleClickOutside)
+      document.removeEventListener('click', hundleClickOutside)
     }
   }, [insideRef])
 

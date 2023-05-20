@@ -1,8 +1,8 @@
-import { useAuthContext } from "@/contexts/AuthContext"
-import Link from "next/link"
-import { db } from "@/lib/firebase"
-import { doc, setDoc, serverTimestamp, deleteDoc } from "firebase/firestore"
-import { TweetType } from "@/types/tweet"
+import { useAuthContext } from '@/contexts/AuthContext'
+import Link from 'next/link'
+import { db } from '@/lib/firebase'
+import { doc, setDoc, serverTimestamp, deleteDoc } from 'firebase/firestore'
+import { TweetType } from '@/types/tweet'
 import Image from 'next/image'
 
 const Tweet = ({ tweet }: { tweet: TweetType}) => {
@@ -16,7 +16,7 @@ const Tweet = ({ tweet }: { tweet: TweetType}) => {
       return
     }
 
-    await setDoc(doc(db, "users", user.uid, 'likes', tweet.id), {
+    await setDoc(doc(db, 'users', user.uid, 'likes', tweet.id), {
       user: {
         ref: doc(db, 'users', user.uid)
       },
@@ -37,7 +37,7 @@ const Tweet = ({ tweet }: { tweet: TweetType}) => {
       return
     }
 
-    await deleteDoc(doc(db, "users", user.uid, 'likes', tweet.id))
+    await deleteDoc(doc(db, 'users', user.uid, 'likes', tweet.id))
 
     setLikeTweetIds && setLikeTweetIds((ids) => ids.filter((id) => id !== tweet.id))
     tweet.likeCount = Math.max(0, tweet.likeCount - 1)
