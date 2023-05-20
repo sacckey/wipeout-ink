@@ -1,3 +1,5 @@
+[![.github/workflows/lint.yml](https://github.com/sacckey/wipeout-ink/actions/workflows/lint.yml/badge.svg)](https://github.com/sacckey/wipeout-ink/actions/workflows/lint.yml)
+
 ## これはなに
 Twitterに投稿されたスプラトゥーン3のwipeout動画を表示するサービスです。
 
