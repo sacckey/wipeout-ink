@@ -1,8 +1,8 @@
-import { initializeApp } from "firebase/app"
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore"
-import { connectAuthEmulator, getAuth } from "firebase/auth"
-import { getAnalytics } from "firebase/analytics"
-import { connectFunctionsEmulator, getFunctions } from "firebase/functions"
+import { initializeApp } from 'firebase/app'
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
+import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import { getAnalytics } from 'firebase/analytics'
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

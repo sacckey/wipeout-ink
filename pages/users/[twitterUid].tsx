@@ -1,5 +1,5 @@
-import { db } from "@/lib/firebase"
-import { collection, getDocs, limit, orderBy, query, QuerySnapshot, startAfter, where } from "firebase/firestore"
+import { db } from '@/lib/firebase'
+import { collection, getDocs, limit, orderBy, query, QuerySnapshot, startAfter, where } from 'firebase/firestore'
 import Tweets from '@/components/Tweets'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -19,7 +19,7 @@ export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], 
       return
     }
 
-    const q = query(collection(db, "tweets"), where('twitterUid', '==', twitterUid), where('active', '==', true), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
+    const q = query(collection(db, 'tweets'), where('twitterUid', '==', twitterUid), where('active', '==', true), orderBy('publishedAt', 'desc'), startAfter(lastTweetDate), limit(30))
     const tweetSnapshots = await getDocs(q) as QuerySnapshot<TweetWithMetaType>
     const tweets = tweetSnapshots.docs.map(doc => tweetWithMeta2Tweet(doc.data()))
 

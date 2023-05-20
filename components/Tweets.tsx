@@ -1,5 +1,5 @@
-import Tweet from "./Tweet"
-import { TweetType } from "@/types/tweet"
+import Tweet from './Tweet'
+import { TweetType } from '@/types/tweet'
 
 const Tweets = ({ tweets }: { tweets: TweetType[] }) => {
   return (
