@@ -1,7 +1,9 @@
 version: '3.8'
 services:
   firebase:
-    build: .
+    build:
+      context: firebase
+      dockerfile: Dockerfile
     ports:
       - 4000:4000
       - 5001:5001
