@@ -106,7 +106,6 @@ export const saveTestTweets = functions.region('asia-northeast1').https.onCall(a
   }
 })
 
-
 // adhoc
 // const tweetSnapshots = await admin.firestore().collection('tweets').limit(1000).get()
 // tweetSnapshots.docs.map(async (doc) => {
