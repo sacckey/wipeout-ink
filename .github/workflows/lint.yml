@@ -12,10 +12,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         id: pnpm-install
-        working-directory: ./front
         with:
           version: latest
-          run_install: true
+          run_install:
+            cwd: ./front
       - name: Lint
         run: pnpm lint
         working-directory: ./front
