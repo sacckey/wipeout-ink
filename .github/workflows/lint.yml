@@ -9,11 +9,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Use pnpm
-        uses: pnpm/action-setup@v2.2.4
-      - name: Install Dependency
-        run: pnpm i --frozen-lockfile
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
         working-directory: ./front
+        with:
+          version: latest
+          run_install: true
       - name: Lint
         run: pnpm lint
         working-directory: ./front
