@@ -14,8 +14,8 @@ jobs:
         id: pnpm-install
         with:
           version: latest
-          run_install:
-            cwd: ./front
+          run_install:  |
+            - cwd: ./front
       - name: Lint
         run: pnpm lint
         working-directory: ./front
