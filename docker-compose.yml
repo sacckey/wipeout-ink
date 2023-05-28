@@ -14,3 +14,16 @@ services:
     working_dir: /app/firebase
     command: "firebase --debug emulators:start --import=./firebase_data --export-on-exit --project demo-project-id"
     tty: true
+
+  front:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front:/app/front:cached
+    working_dir: /app/front
+    entrypoint: ./entrypoint.sh
+    command: "yarn dev"
+    tty: true
