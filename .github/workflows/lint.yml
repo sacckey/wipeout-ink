@@ -13,7 +13,7 @@ jobs:
         uses: pnpm/action-setup@v2
         id: pnpm-install
         with:
-          version: latest
+          version: 8.6.0
           run_install:  |
             - cwd: ./front
       - name: Lint
