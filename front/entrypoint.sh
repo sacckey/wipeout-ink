@@ -2,6 +2,6 @@
 
 set -eu
 
-yarn install
+pnpm i
 
 exec "$@"

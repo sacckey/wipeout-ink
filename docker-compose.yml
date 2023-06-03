@@ -25,5 +25,5 @@ services:
       - ./front:/app/front:cached
     working_dir: /app/front
     entrypoint: ./entrypoint.sh
-    command: "yarn dev"
+    command: "pnpm dev"
     tty: true
