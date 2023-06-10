@@ -14,6 +14,7 @@ export default function Debug() {
 
   return (
     <div>
+      <h1 className='font-quicksand text-3xl text-center'>Debug</h1>
       <button type="button" onClick={fetch}>fetch</button>
     </div>
   )

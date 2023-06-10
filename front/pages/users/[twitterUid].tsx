@@ -10,6 +10,7 @@ import { tweetWithMeta2Tweet } from '@/lib/utils'
 export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], twitterUid: string }) {
   const [list, setList] = useState(tweets)
   const [hasMore, setHasMore] = useState(tweets.length > 0)
+  const userName = tweets[0]?.username ?? ''
 
   const loadMore = async () => {
     const lastTweetDate = list.at(-1)?.publishedAt
@@ -34,9 +35,12 @@ export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], 
   const loader =<div className="loader" key={0}>Loading ...</div>
 
   return (
-    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
-      <Tweets tweets={list} />
-    </InfiniteScroll>
+    <div>
+      <h1 className='font-quicksand text-3xl text-center'>{userName}'s wipeouts</h1>
+      <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
+        <Tweets tweets={list} />
+      </InfiniteScroll>
+    </div>
   )
 }
 

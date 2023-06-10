@@ -5,7 +5,10 @@ import { tweetWithMeta2Tweet } from '@/lib/utils'
 
 export default function Ranking({ tweets }: { tweets: TweetType[] }) {
   return (
-    <Tweets tweets={tweets} />
+    <div>
+      <h1 className='font-quicksand text-3xl text-center'>Ranking</h1>
+      <Tweets tweets={tweets} />
+    </div>
   )
 }
 

@@ -55,8 +55,11 @@ export default function Likes() {
   const loader =<div className="loader" key={0}>Loading ...</div>
 
   return (
-    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
-      <Tweets tweets={list} />
-    </InfiniteScroll>
+    <div>
+      <h1 className='font-quicksand text-3xl text-center'>Likes</h1>
+      <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
+        <Tweets tweets={list} />
+      </InfiniteScroll>
+    </div>
   )
 }
