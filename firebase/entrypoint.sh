@@ -2,7 +2,7 @@
 
 set -eu
 
-pnpm i --prefix functions
-pnpm build --prefix functions
+pnpm --filter ./functions i
+pnpm --filter ./functions build
 
 exec "$@"
