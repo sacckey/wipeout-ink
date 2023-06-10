@@ -11,9 +11,3 @@ COPY . .
 
 ENTRYPOINT [ "./entrypoint.sh" ]
 CMD firebase --debug emulators:start --import=./firebase_data --export-on-exit --project demo-project-id
-
-# COPY functions/package.json functions/package-lock.json ./functions/
-
-# RUN npm ci --prefix functions
-
-# RUN npm run build --prefix functions
