@@ -10,8 +10,9 @@ services:
       - 8080:8080
       - 9099:9099
     volumes:
-      - ./firebase:/app/firebase
+      - ./firebase:/app/firebase:cached
     working_dir: /app/firebase
+    entrypoint: ./entrypoint.sh
     command: "firebase --debug emulators:start --import=./firebase_data --export-on-exit --project demo-project-id"
     tty: true
 
