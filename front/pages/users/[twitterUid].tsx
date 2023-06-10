@@ -36,7 +36,7 @@ export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], 
 
   return (
     <div>
-      <h1 className='font-quicksand text-3xl text-center'>{userName}'s wipeouts</h1>
+      <h1 className='font-quicksand text-3xl text-center'>{userName}&apos;s wipeouts</h1>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
         <Tweets tweets={list} />
       </InfiniteScroll>
