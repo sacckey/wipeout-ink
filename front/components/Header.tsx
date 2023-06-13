@@ -122,6 +122,9 @@ const Header = () => {
           <h1 className='font-quicksand text-4xl text-center'>wipeout.ink</h1>
         </Link>
         <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
+          <Link href="/debug" className="mr-5 hover:text-white">
+            Debug
+          </Link>
           <Link href="/ranking" className="mr-5 hover:text-white">
             Ranking
           </Link>
