@@ -78,16 +78,16 @@ export const onDeleteLike = functions.region('asia-northeast1').firestore.docume
   functions.logger.info("end!")
 })
 
-export const saveTestTweets = functions.region('asia-northeast1').https.onCall(async () => {
+export const saveSampleTweets = functions.region('asia-northeast1').https.onCall(async () => {
   if (process.env.FIREBASE_DEBUG_MODE === 'false') {
     return
   }
 
   const publishedAt = (new Date()).getTime() - 3600 * 1000
   for (let i = 0; i < 40; i++) {
-    await admin.firestore().collection('tweets').doc(`test_${i}`).set({
-      id: `test_${i}`,
-      text: `test_${i}`,
+    await admin.firestore().collection('tweets').doc(`sample_${i}`).set({
+      id: `sample_${i}`,
+      text: `sample_${i}`,
       replyCount: 0,
       twitterLikeCount: 0,
       retweetCount: 0,

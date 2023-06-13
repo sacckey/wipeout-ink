@@ -8,8 +8,8 @@ export default function Debug() {
   const save = async () => {
     setLoading(true)
 
-    const saveTestTweets = httpsCallable(functions, 'saveTestTweets')
-    await saveTestTweets()
+    const saveSampleTweets = httpsCallable(functions, 'saveSampleTweets')
+    await saveSampleTweets()
 
     setLoading(false)
   }
