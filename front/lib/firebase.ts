@@ -14,10 +14,10 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 }
 
-export const app = initializeApp(firebaseConfig)
-export const db = getFirestore(app)
-export const auth = getAuth(app)
-export const functions = getFunctions(app, 'asia-northeast1')
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
+const auth = getAuth(app)
+const functions = getFunctions(app, 'asia-northeast1')
 let analytics = null
 
 if (typeof window !== 'undefined') {
@@ -30,4 +30,4 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { analytics }
+export { db, auth, functions, analytics }

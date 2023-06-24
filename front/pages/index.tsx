@@ -40,6 +40,7 @@ export default function Home({ tweets }: { tweets: TweetType[] }) {
         <title>wipeout.ink</title>
         <meta property="og:image" content="ogp.png" />
       </Head>
+      <h1 className='font-quicksand text-3xl text-center'>Recent wipeouts</h1>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
         <Tweets tweets={list} />
      </InfiniteScroll>
