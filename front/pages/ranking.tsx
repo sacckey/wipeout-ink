@@ -2,10 +2,16 @@ import Tweets from '@/components/Tweets'
 import { admin } from '@/lib/firebaseAdmin'
 import { TweetType, TweetWithMetaType } from '@/types/tweet'
 import { tweetWithMeta2Tweet } from '@/lib/utils'
+import Head from 'next/head'
 
 export default function Ranking({ tweets }: { tweets: TweetType[] }) {
   return (
     <div>
+      <Head>
+        <title>Ranking | wipeout.ink</title>
+        <meta property="og:image" content="ogp.png" />
+      </Head>
+
       <h1 className='font-quicksand text-3xl text-center'>Ranking</h1>
       <Tweets tweets={tweets} />
     </div>

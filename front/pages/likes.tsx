@@ -6,6 +6,7 @@ import { db } from '@/lib/firebase'
 import InfiniteScroll from 'react-infinite-scroller'
 import { TweetType, TweetWithMetaType } from '@/types/tweet'
 import { tweetWithMeta2Tweet } from '@/lib/utils'
+import Head from 'next/head'
 
 export default function Likes() {
   const { likeTweetIds } = useAuthContext()
@@ -56,6 +57,11 @@ export default function Likes() {
 
   return (
     <div>
+      <Head>
+        <title>Likes | wipeout.ink</title>
+        <meta property="og:image" content="ogp.png" />
+      </Head>
+
       <h1 className='font-quicksand text-3xl text-center'>Likes</h1>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
         <Tweets tweets={list} />

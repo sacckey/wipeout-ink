@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 import { admin } from '@/lib/firebaseAdmin'
 import { TweetType, TweetWithMetaType } from '@/types/tweet'
 import { tweetWithMeta2Tweet } from '@/lib/utils'
+import Head from 'next/head'
 
 export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], twitterUid: string }) {
   const [list, setList] = useState(tweets)
@@ -36,6 +37,11 @@ export default function UserPage({ tweets, twitterUid }: { tweets: TweetType[], 
 
   return (
     <div>
+      <Head>
+        <title>{userName} | wipeout.ink</title>
+        <meta property="og:image" content="ogp.png" />
+      </Head>
+
       <h1 className='font-quicksand text-3xl text-center'>{userName}&apos;s wipeouts</h1>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={loader}>
         <Tweets tweets={list} />

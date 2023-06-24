@@ -1,6 +1,7 @@
 import { httpsCallable } from 'firebase/functions'
 import { functions } from '@/lib/firebase'
 import { useState } from 'react'
+import Head from 'next/head'
 
 export default function Debug() {
   const [loading, setLoading] = useState(false)
@@ -16,6 +17,11 @@ export default function Debug() {
 
   return (
     <div>
+      <Head>
+        <title>Debug | wipeout.ink</title>
+        <meta property="og:image" content="ogp.png" />
+      </Head>
+
       <h1 className='font-quicksand text-3xl text-center'>Debug</h1>
       <main className='container max-w-full py-8'>
         <div className='border border-gray-600 rounded-2xl h-52 my-8 p-5 max-w-xl mx-auto'>
